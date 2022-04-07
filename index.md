@@ -34,9 +34,7 @@ Roughly speaking, we create some kind of representations in our minds, and then 
 
 More formally, for any data point x, contrastive methods aim to learn an encoder f such that:
 
-```math
-\text { similarity_score }\left(f(x), f\left(x^{+}\right)\right)>>\text {similarity_score }\left(f(x), f\left(x^{-}\right)\right)
-```
+![](http://latex.codecogs.com/svg.latex?\text { similarity_score }\left(f(x), f\left(x^{+}\right)\right)>>\text {similarity_score }\left(f(x), f\left(x^{-}\right)\right))
 
 In the formula above, x+ is a data point similar to the input x. In other words, the observations x and x+ are correlated and the pair (x,x+) represents a positive sample. In most cases, we can implement different augmentation techniques(Image rotation, cropping and etc.) to generate those samples. In other words, in contrastive learning, we aim to minimize the difference between the positive pairs while maxmizing the difference between positives and negatives.
 
