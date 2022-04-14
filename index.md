@@ -14,7 +14,9 @@
 
 
 ### Reproduced by 
-    Chaoyi Zhu, Congwen Chen, Zhiyang Liu
+    Chaoyi Zhu 5500524 c.zhu-7@student.tudelft.nl
+    Congwen Chen 5492815 c.chen-29@student.tudelft.nl
+    Zhiyang Liu 5534496 z.liu-57@student.tudelft.nl
 
 ---------------------
 
@@ -23,6 +25,7 @@ This blog aims to present the reproduction work of the paper [A Simple Framework
 The structure of this blog can be divided into 2 parts, including the introduction of the content in the paper and the work we have done. Our working generally includes the reproduction of the paper, extending application on RPLAN dataset, and visualization of the training result.
 
 ![](https://i.imgur.com/JORMqqp.png)
+
 ## Author Contribution
 The blog writing is equally distributed among different authors.
 
