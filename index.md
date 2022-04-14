@@ -158,6 +158,7 @@ We choose 4000 thousands of samples from the CIFAR10 testset to do the visualiza
 In this gif, different colors represent different classes. As we can see, the dots in the 3D space are denser in the center of the space. The dots in the 3D space are split very well. Different classes are separated into different sub space.
 
 To better visualize the embedding space, we associate the embedding with the images in our space. We refer to the blog [How to visualize image feature vectors](https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f).
+
 <img src="https://cdn.discordapp.com/attachments/884910103428476989/964089053177839616/unknown.png" alt="examples" width="800"/>
 <img src="https://media.discordapp.net/attachments/884910103428476989/964089114951573534/unknown.png?width=1398&height=1302" alt="examples" width="800"/>
 
@@ -171,7 +172,8 @@ For example, birds on the dividing line between birds and deers are always ostri
 <img src="https://media.discordapp.net/attachments/884910103428476989/964092583875854416/unknown.png?width=1384&height=1302" width="800"/>
 
 #### Visualization on RPLAN Dataset
-RPLAN dataset is a manually collected large-scale densely annotated dataset of floor plans from real residential buildings.[From dataset discription]
+RPLAN dataset is a manually collected large-scale densely annotated dataset of floor plans from real residential buildings[From dataset discription](http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/index.html).
+
 Here is an example in the RPLAN dataset:
 
 <img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="800"/>
