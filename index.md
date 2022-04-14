@@ -8,7 +8,7 @@
 
 This blog aims to present the reproduction work of the paper [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf). The paper introduces a new method for contrastive learning of visual representations. The innovation of this work is to use **aggressive data augmentations**. The resulting "harder" tasks can dramatically improve the quality of learned representations. This work achieved strong results and outperformed previous methods for self-supervised and semi-supervised learning on ImageNet and strong generalization performance on other datasets as well. Our objective is to reproduce the results in Table 8 of the original paper as shown below.
 
-The structure of this blog can be divided into 2 parts, including introduction of the content in the paper and the work we have done. Our working generally includes reproduction of the paper, extending application on RPLAN dataset and visualization of the training result.
+The structure of this blog can be divided into 2 parts, including the introduction of the content in the paper and the work we have done. Our working generally includes the reproduction of the paper, extending application on RPLAN dataset, and visualization of the training result.
 
 ![](https://i.imgur.com/JORMqqp.png)
 ## Author Contribution
@@ -26,9 +26,9 @@ For decades, a large class of ML methods relies on human-provided labels or rewa
 
 ### Self-supervised Learning
 
-Self-supervised learning (SSL) is a method of machine learning. It learns from unlabeled sample data, and can be regarded as an intermediate form between supervised and unsupervised learning.
+Self-supervised learning (SSL) is a method of machine learning. It learns from unlabeled sample data and can be regarded as an intermediate form between supervised and unsupervised learning.
 
-As one may ask, how can we train a neural network without labels? Neural networks are generally trained on some objective function. Without labels, how can we measure the performence of a network? Self-supervised learning answers this question by proposing **tasks** for the network to solve, where performance is easy to measure. For example, in the field of Computer Vision(CV), the task could be filling in image holes, or colorizing grayscale images. Ideally, a good task will be difficult to solve if the network cannot capture some form of image semantics.
+As one may ask, how can we train a neural network without labels? Neural networks are generally trained on some objective function. Without labels, how can we measure the performance of a network? Self-supervised learning answers this question by proposing **tasks** for the network to solve, where performance is easy to measure. For example, in the field of Computer Vision(CV), the task could be filling in image holes, or colorizing grayscale images. Ideally, a good task will be difficult to solve if the network cannot capture some form of image semantics.
 
 Neural networks pre-trained on these tasks can be fine-tuned on downstream tasks with less labeled data than those initialized randomly. A typical procedure of SSL is shown in the figure below.
 
@@ -44,12 +44,11 @@ The main motivation for contrastive learning comes from human learning patterns.
 ![](https://i.imgur.com/MScuyWA.png)
 
 Roughly speaking, we create some kind of representation in our minds, and then we use them to recognize new objects. And the main goal of contrastive self-supervised learning is to create and generalize these representations.
-
-More formally, for any data point $x$, contrastive methods aim to learn an encoder $f$ that maximizes $similarity(f(x), f(x^+))$ and minimizes $similarity(f(x), f(x^-))$. Here, $x^+$ is a data point similar to the input $x$. In other words, the observations $x$ and $x^+$ are correlated and the pair $(x,x^+)$ represents a positive sample, while $x$ and $x^-$ are unrelated and $(x,x^-)$ represents a negative pair. In most cases, we can implement different augmentation techniques (Image rotation, cropping and etc.) to generate positive samples. In contrastive learning, we aim to minimize the difference between the positive pairs while maximizing the difference between positives and negatives.
+More formally, for any data point $x$, contrastive methods aim to learn an encoder $f$ that maximizes $similarity(f(x), f(x^+))$ and minimizes $similarity(f(x), f(x^-))$. Here, $x^+$ is a data point similar to the input $x$. In other words, the observations $x$ and $x^+$ are correlated and the pair $(x,x^+)$ represents a positive sample, while $x$ and $x^-$ are unrelated and $(x,x^-)$ represents a negative pair. In most cases, we can implement different augmentation techniques (Image rotation, cropping, etc.) to generate positive samples. In contrastive learning, we aim to minimize the difference between the positive pairs while maximizing the difference between positives and negatives.
 
 ### A Simple Framework for Contrastive Learning of Visual Representations (SimCLR)
 
-And here comes the method we are about to reproduce, SimCLR[1]. It uses the principles of contrastive learning we described above. As mentioned in former parts, the essence of strength of the work is the aggressive data augmentation. By doing so, "harder" samples are generated to train the ability of the network to learn representations. In fact, the authors demonstrated in the paper that such stronger data augmentation can benefit unsupervised contrastive learning "dramatically" while the same augmenation does not improve and even hurts performance of supervised models.
+And here comes the method we are about to reproduce, SimCLR[1]. It uses the principles of contrastive learning we described above. As mentioned in the former parts, the essence of the strength of the work is aggressive data augmentation. By doing so, "harder" samples are generated to train the ability of the network to learn representations. The authors demonstrated in the paper that such stronger data augmentation can benefit unsupervised contrastive learning "dramatically" while the same augmentation does not improve and even hurts the performance of supervised models.
 
 The architecture of SimCLR is shown below. An image is taken and random transformations are applied to it to get a pair of two augmented images $x_i$ and $x_j$. Each image in that pair is passed through an encoder to get representations. Then a non-linear fully connected layer is applied to get representations $z_i$ and $z_j$. The task is to maximize the similarity between these two representations $z_i$ and $z_j$ for the same image. 
 
@@ -111,7 +110,7 @@ This concludes the training iteration of a batch.
 **5. Fine-tune**
 By far, the encoder has been trained to output representations. And now the model is ready to be fine-tuned to deal with downstream tasks.
 
-The paper claims that accuracy of 76.5% on ImageNet can be achieved with  SimCLR using ResNet-50 (4x), and 85.8% if fine-tuned with 1% labels.
+The paper claims that the accuracy of 76.5% on ImageNet can be achieved with  SimCLR using ResNet-50 (4x), and 85.8% if fine-tuned with 1% labels.
 
 In the following sections, we introduce our implementations of SimCLR and the results.
 
@@ -225,9 +224,9 @@ Therefore, SimCLR can also work well on the RPLAN dataset. In future work, SimCL
 
  ## References
  [1] Chen, Ting, et al. "A simple framework for contrastive learning of visual representations." International conference on machine learning. PMLR, 2020.
- 
+
  [2] Wu, Wenming, et al. "Data-driven interior plan generation for residential buildings." ACM Transactions on Graphics (TOG) 38.6 (2019): 1-12.
- 
+
  [3] SimCLR PyTorch Implementation: https://github.com/Spijkervet/SimCLR
- 
+
  [4] How to visualize image feature vectors: https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f
