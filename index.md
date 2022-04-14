@@ -8,6 +8,8 @@
 
 This blog aims to present the reproduction work of the paper [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf). The paper introduces a new method for contrastive learning of visual representations. This work achieved strong results and outperformed previous methods for self-supervised and semi-supervised learning on ImageNet. Our objective is to reproduce the results in Table 8 of the original paper as shown below.
 
+The structure of this blog can be divided into 2 parts, including introduction of the content in the paper and the work we have done. Our working generally includes reproduction of the paper, extending application on RPLAN dataset and visualization of the training result.
+
 ![](https://i.imgur.com/JORMqqp.png)
 
 ---------------------
@@ -101,7 +103,7 @@ In the following sections, we introduce our implementations of SimCLR and the re
 
 ## Our work
 
-The goal of this report is to show our effort in reproducing the paper "A Simple Framework for Contrastive Learning of Visual Representation". [Link to paper](https://arxiv.org/pdf/2002.05709.pdf) We reimplement SIMCLR using PyTorch based on the [official TensorFlow version](https://github.com/google-research/simclr.git). Moreover, as the requirement of the course, we reproduce the result in table 8 on the CIFAR10 dataset and get a nice visualization effect on trained image vectors. Moreover, we also extend our work to a new dataset RPLAN, and also achieves good visualization results. In general, our work can be divided into the following parts:
+The goal of this blog is to show our effort in reproducing the paper "A Simple Framework for Contrastive Learning of Visual Representation". [Link to paper](https://arxiv.org/pdf/2002.05709.pdf) We reimplement SIMCLR using PyTorch based on the [official TensorFlow version](https://github.com/google-research/simclr.git). Moreover, as the requirement of the course, we reproduce the result in table 8 on the CIFAR10 dataset and get a nice visualization effect on trained image vectors. Moreover, we also extend our work to a new dataset RPLAN, and also achieves good visualization results. In general, our work can be divided into the following parts:
 
   - Reimplement the paper using _PyTorch_ on _Jupyter Notebook_.
   - Reproduce the result of _table 8_ in the paper using different training strategies, including finetuning and linear evaluation, by using the pretrained _ResNet(1X)_ and _ResNet(4X)_ models.
