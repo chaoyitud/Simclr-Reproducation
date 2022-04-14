@@ -101,12 +101,12 @@ In the following sections, we introduce our implementations of SimCLR and the re
 
 ## Our work
 
-The goal of this report is to show our effort in reproducing the paper "A Simple Framework for Contrastive Learning of Visual Representation". [Link to paper](https://arxiv.org/pdf/2002.05709.pdf) We reimplement SIMCLR using PyTorch based on the official TensorFlow version. Moreover, as the requirement of the course, we reproduce the result in table 8 on the CIFAR10 dataset and get a nice visualization effect on trained image vectors. Moreover, we also extend our work to a new dataset RPLAN, and also achieves good visualization results. In general, our work can be divided into the following parts:
+The goal of this report is to show our effort in reproducing the paper "A Simple Framework for Contrastive Learning of Visual Representation". [Link to paper](https://arxiv.org/pdf/2002.05709.pdf) We reimplement SIMCLR using PyTorch based on the [official TensorFlow version](https://github.com/google-research/simclr.git). Moreover, as the requirement of the course, we reproduce the result in table 8 on the CIFAR10 dataset and get a nice visualization effect on trained image vectors. Moreover, we also extend our work to a new dataset RPLAN, and also achieves good visualization results. In general, our work can be divided into the following parts:
 
-  - Reimplement the paper using PyTorch on Jupyter Notebook.
-  - Reproduce the result of table 8 in the paper using different training strategies, including finetuning and linear evaluation, by using the pretrained ResNet(1X) and ResNet(4X) models.
-  - Extend to apply SIMCLR on the RPLAN dataset. The work includes applying transform on RPLAN images(so that they can fit in the model) and training on these images.
-  - Visualize the trained image vectors on CIFAR10 and RPLAN datasets by using PCA and SNE, and analysis the pretraining performance of the model.
+  - Reimplement the paper using _PyTorch_ on _Jupyter Notebook_.
+  - Reproduce the result of _table 8_ in the paper using different training strategies, including finetuning and linear evaluation, by using the pretrained _ResNet(1X)_ and _ResNet(4X)_ models.
+  - Extend to apply SIMCLR on the _RPLAN dataset_. The work includes applying transform on RPLAN images(so that they can fit in the model) and training on these images.
+  - _Visualize_ the trained image vectors on CIFAR10 and RPLAN datasets by using _PCA_ and _SNE_, and analysis the pretraining performance of the model.
 
 ### Reproduction of the paper
 
@@ -118,13 +118,13 @@ To transform the official TensorFlow checkpoint to the Pytorch checkpoint, we us
 
 ##### Linear Evaluation
 
-We use weight & biase to get the loss curve of the training process. As shown in the following graph. The X-axis refers to the epoch number, and the y-axis refers to the corresponding accuracy or loss. During the linear evaluation, the model quickly converges and the loss almost reaches 0 in around 200 epochs. We also compare the convergence speed between ResNet1X and ResNet4X. The result shows that a larger pretraining model won't make the logistic regression layer converge faster.
+We use [weight & biase]([wandb · PyPI](https://pypi.org/project/wandb/)) to get the loss curve of the training process. As shown in the following figure. The X-axis refers to the epoch number, and the y-axis refers to the corresponding accuracy or loss and we apply log scaling on it.  During the linear evaluation, the model quickly converges and the loss almost reaches 0 in around 200 epochs. We also compare the convergence speed between ResNet1X and ResNet4X. The result shows that a larger pretraining model won't make the logistic regression layer converge faster.
 
-<img src="https://s1.ax1x.com/2022/04/08/LpA8N6.png" alt="i1" style="zoom: 15%;" /><img src="https://cdn.discordapp.com/attachments/884910103428476989/961713567076352130/WB_Chart_4_7_2022_9_41_15_PM.png" alt="i2" style="zoom:15%;" /><img src="https://cdn.discordapp.com/attachments/884910103428476989/961717185229779024/WB_Chart_4_7_2022_10_00_22_PM.png" alt="i2" style="zoom:15%;" /><img src="https://cdn.discordapp.com/attachments/884910103428476989/961717185468850206/WB_Chart_4_7_2022_10_00_28_PM.png" alt="i2" style="zoom:15%;" />
+[<img src="https://s1.ax1x.com/2022/04/14/L1bEJH.png" alt="L1bEJH.png" style="zoom:15%;" />](https://imgtu.com/i/L1bEJH)[<img src="https://s1.ax1x.com/2022/04/14/L1bAFe.png" alt="L1bAFe.png" style="zoom:15%;" />](https://imgtu.com/i/L1bAFe)[<img src="https://s1.ax1x.com/2022/04/14/L1bsfJ.png" alt="L1bsfJ.png" style="zoom:15%;" />](https://imgtu.com/i/L1bsfJ)[<img src="https://s1.ax1x.com/2022/04/14/L1b6p9.png" alt="L1b6p9.png" style="zoom:15%;" />](https://imgtu.com/i/L1b6p9)
 
 ##### Finetune
 
-We also plot the learning curve of finetuning training phase and compare it with the learning curve while the model learns from scratch. The graph is shown below. Different from linear evaluation, finetuning requires much more computation and takes approximately 30 minutes to run 1 epoch, so the x-axis now refers to the step number. Pretrained models converge much faster compared with the model trained from scratch and achieve much higher accuracy while training. It proves that the pretraining process does take effect.
+We also plot the learning curve of finetuning training phase and compare it with the learning curve while the model learns from scratch. The figure of loss and accuracy during training process is shown below. Different from linear evaluation, finetuning requires much more computation and takes approximately 30 minutes to run 1 epoch, so the x-axis now refers to the step number. Pretrained models converge much faster compared with the model trained from scratch and achieve much higher accuracy while training. It proves that the pretraining process does take effect.
 
 
 
@@ -134,15 +134,15 @@ We also plot the learning curve of finetuning training phase and compare it with
 
 In this section, we compare the performance of different training strategies and the same strategy with the performance in the paper. All the results are shown in the following table. We fail to run ResNet4X finetune because of a lack of computational resources. Our ResNet1X finetuning has almost the same performance compared with the original paper. However, after trying different training settings, our linear evaluation still can not achieve the same performance as the paper. After reading the paper and comparing our code with the official code, I think it might result from the small batch size we use. The author shows that a larger batch size over 512 can significantly increase the performance. But because of a lack of memory resources, that does not apply to us.
 
-| Training Setup              | Note                          | Accuracy |
-| --------------------------- | ----------------------------- | -------- |
-| ResNet1X finetune           | loading pretrained checkpoint | 0.955    |
-| ResNet1X finetune           | learn from scratch            | 0.823    |
-| ResNet1X finetune           | in the original paper         | 0.977    |
-| ResNet1X linear evaluation  | our implementation            | 0.852    |
-| RestNet1X linear evaluation | in the original paper         | 0.906    |
-| ResNet4X linear evaluation  | our implementation            | 0.897    |
-| ResNet4X linear evaluation  | in the original paper         | 0.953    |
+| Training Setup              | Note                          | Accuracy      |
+| --------------------------- | ----------------------------- | ------------- |
+| ResNet1X finetune           | loading pretrained checkpoint | 0.955(-0.022) |
+| ResNet1X finetune           | learn from scratch            | 0.823(-0.154) |
+| ResNet1X finetune           | in the original paper         | 0.977         |
+| ResNet1X linear evaluation  | our implementation            | 0.852(-0.854) |
+| RestNet1X linear evaluation | in the original paper         | 0.906         |
+| ResNet4X linear evaluation  | our implementation            | 0.897(-0.056) |
+| ResNet4X linear evaluation  | in the original paper         | 0.953         |
 
 ### Visualization
 Is there an alternative approach to evaulate the performance of SimCLR or other contrastive learning method? 
