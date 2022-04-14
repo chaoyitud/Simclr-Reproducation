@@ -10,4 +10,4 @@ The checkpoints come from the [Official Implementation](https://https://github.c
 
 The source code for the implementation is available in src directory.
 
-The blog of reproducing in shown in the [GitHub Page]https://carloschu-c.github.io/Simclr-Reproducation/)
+The blog of reproducing in shown in the [GitHub Page](https://carloschu-c.github.io/Simclr-Reproducation/).
