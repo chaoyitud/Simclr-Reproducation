@@ -235,6 +235,7 @@ For example:
 Therefore, SimCLR can also work well on the RPLAN dataset. In future work, SimCLR can be a useful tool to project the RPLAN dataset into embeddings for multipurpose applications.
 
  ## References
+ 
  [1] Chen, Ting, et al. "A simple framework for contrastive learning of visual representations." International conference on machine learning. PMLR, 2020.
 
  [2] Wu, Wenming, et al. "Data-driven interior plan generation for residential buildings." ACM Transactions on Graphics (TOG) 38.6 (2019): 1-12.
