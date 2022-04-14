@@ -1,2 +1,2 @@
 theme: jekyll-theme-cayman
-usemathjax : true
+markdown: kramdown
