@@ -19,8 +19,8 @@ Chaoyi Zhu: Preprocess RPLAN dataset and visualize the training result on CIFAR1
 Congwen Chen: Finetune and apply linear evaluation on different models. 
 
 Zhiyang Liu: Train the model using the official repo and convert the official checkpoint to Pytorch version.
----------------------
 
+---------------------
 ## Introduction
 For decades, a large class of ML methods relies on human-provided labels or rewards as the only form of learning signals used during the training process. These methods, known as Supervised Learning approaches, heavily rely on the amount of annotated training data available. Although raw data is vastly available, annotating data is known to be expensive.
 
