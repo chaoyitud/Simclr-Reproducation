@@ -186,13 +186,14 @@ In the first part, we use the rplanpy library to read the RPLAN dataset and conv
 
 The next three parts are the same as the CIFAR10 dataset, the only difference is that we cannot get the label information. The final visualization results are shown in the images below.
 
-![](https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302)
+<img src="https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302" alt="examples" width="800"/>
 
 We find that the neighbors in the space are very similar.
 For example:
 
-![](https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302)
+<img src="https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302" alt="examples" width="800"/>
 
-![](https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302)
+<img src="https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302" alt="examples" width="800"/>
+
 
 Therefore, SimCLR can also work well on the RPLAN dataset. In future work, SimCLR can be a useful tool to project the RPLAN dataset into embeddings for multipurpose applications.
