@@ -154,7 +154,9 @@ The visulazation process consists of the following steps, and the detailed step 
 3. Visualize the embedding space.
 
 We choose 4000 thousands of samples from the CIFAR10 testset to do the visualization. At first, we only associate the embedding with colorful dots in the 3D space.
-![3D_space.gif](https://cdn.discordapp.com/attachments/884910103428476989/964083401139306516/Webp.net-gifmaker.gif)
+
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/964083401139306516/Webp.net-gifmaker.gif" alt="examples" width="800"/>
+
 In this gif, different colors represent different classes. As we can see, the dots in the 3D space are denser in the center of the space. The dots in the 3D space are split very well. Different classes are separated into different sub space.
 
 To better visualize the embedding space, we associate the embedding with the images in our space. We refer to the blog [How to visualize image feature vectors](https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f).
