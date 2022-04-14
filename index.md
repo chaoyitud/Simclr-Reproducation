@@ -170,7 +170,7 @@ For example, birds on the dividing line between birds and deers are always ostri
 RPLAN dataset is a manually collected large-scale densely annotated dataset of floor plans from real residential buildings.[From dataset discription]
 Here is an example in the RPLAN dataset:
 
-<img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="400"/>
+<img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="800"/>
 
 The main problem with the RPLAN dataset is that the images are not labeled. Therefore, we cannot use the linear evaluation to evaluate our model's performance on the RPLAN dataset. Therefore, we use the visualization method to project the image to 3D space to evaluate the performance subjectively.
 
@@ -181,12 +181,16 @@ The main process can be divided into four parts:
 4. Use TensorBoard to visualize the embedding space.
 
 In the first part, we use the rplanpy library to read the RPLAN dataset and convert the binary images to color images. Here are two examples of this processing.
-<img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="400"/>
+
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="800"/>
 
 The next three parts are the same as the CIFAR10 dataset, the only difference is that we cannot get the label information. The final visualization results are shown in the images below.
+
 ![](https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302)
+
 We find that the neighbors in the space are very similar.
 For example:
+
 ![](https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302)
 
 ![](https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302)
