@@ -6,21 +6,24 @@
 
 ---------------------
 
-This blog aims to present the reproduction work of the paper [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf). The paper introduces a new method for contrastive learning of visual representations. This work achieved strong results and outperformed previous methods for self-supervised and semi-supervised learning on ImageNet. Our objective is to reproduce the results in Table 8 of the original paper as shown below.
+This blog aims to present the reproduction work of the paper [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf). The paper introduces a new method for contrastive learning of visual representations. The innovation of this work is to use **aggressive data augmentations**. The resulting "harder" tasks can dramatically improve the quality of learned representations. This work achieved strong results and outperformed previous methods for self-supervised and semi-supervised learning on ImageNet and strong generalization performance on other datasets as well. Our objective is to reproduce the results in Table 8 of the original paper as shown below.
 
 The structure of this blog can be divided into 2 parts, including introduction of the content in the paper and the work we have done. Our working generally includes reproduction of the paper, extending application on RPLAN dataset and visualization of the training result.
 
 ![](https://i.imgur.com/JORMqqp.png)
 
----------------------
 ## Introduction
-For decades, a large class of ML methods relies on human-provided labels or rewards as the only form of learning signals used during the training process. These methods, known as Supervised Learning approaches, heavily rely on the amount of annotated training data available. But as is known, annotating data is not cheap. On the other hand, if we look around, data, in an unsupervised way, is abundant. This is where self-supervised learning methods play a vital role in the process of deep learning without requiring expensive annotations.
+---------------------
+For decades, a large class of ML methods relies on human-provided labels or rewards as the only form of learning signals used during the training process. These methods, known as Supervised Learning approaches, heavily rely on the amount of annotated training data available. Although raw data is vastly available, annotating data is known to be expensive.
 
 ### Self-supervised Learning
 
-From a classification perspective, self-supervised learning is a subset of unsupervised learning. It aims to learn some general representation for downstream tasks.
+Self-supervised learning (SSL) is a method of machine learning. It learns from unlabeled sample data, and can be regarded as an intermediate form between supervised and unsupervised learning.
 
-Typically, in the process of self-supervised learning, as shown below, unlabeled data is used for pre-training. After that, the model is fine-tuned in a supervised way according to the downstream tasks.
+As one may ask, how can we train a neural network without labels? Neural networks are generally trained on some objective function. Without labels, how can we measure the performence of a network? Self-supervised learning answers this question by proposing **tasks** for the network to solve, where performance is easy to measure. For example, in the field of Computer Vision(CV), the task could be filling in image holes, or colorizing grayscale images. Ideally, a good task will be difficult to solve if the network cannot capture some form of image semantics.
+
+Neural networks pre-trained on these tasks can be fine-tuned on downstream tasks with less labeled data than those initialized randomly. A typical procedure of SSL is shown in the figure below.
+
 
 ![](https://i.imgur.com/PBammSs.png)
 
@@ -28,21 +31,19 @@ Typically, in the process of self-supervised learning, as shown below, unlabeled
 
 As one of the most popular topics in the past few years, Contrastive learning methods, as the name implies, learn representations by contrasting positive and negative examples. They aim to group similar samples closer and diverse samples far from each other. Contrastive self-supervised learning is to use such methods in the pre-training process and has led to great empirical success in computer vision tasks.
 
-The main motivation for contrastive learning comes from human learning patterns. Humans recognize objects without remembering all the little details. For example, Epstein ran an experiment in 2016 that asked subjects to draw dollars in as much detail as possible. In the figure below, the left one is the result drawn by people without any reference, and the right one is drawn with a bill (not a One Dollar bill) in hand. People are very familiar with bills, but this experiment shows some more abstract features（Like figures in the corners, a portrait in the middle.）, instead of all the details that help people to recognize or remember an item.
+The main motivation for contrastive learning comes from human learning patterns. Humans recognize objects without remembering all the little details. For example, Epstein ran an [experiment](https://aeon.co/essays/your-brain-does-not-process-information-and-it-is-not-a-computer) in 2016 that asked subjects to draw dollars in as much detail as possible. In the figure below, the left one is the result drawn by people without any reference, and the right one is drawn with a bill (not a One Dollar bill) in hand. People are very familiar with bills, but this experiment shows some more abstract features（Like figures in the corners, a portrait in the middle.）, instead of all the details that help people to recognize or remember an item.
 
 ![](https://i.imgur.com/MScuyWA.png)
 
 Roughly speaking, we create some kind of representation in our minds, and then we use them to recognize new objects. And the main goal of contrastive self-supervised learning is to create and generalize these representations.
 
-More formally, for any data point x, contrastive methods aim to learn an encoder f such that:
-
-![image alt](https://media.discordapp.net/attachments/884910103428476989/961721226013851739/unknown.png?width=2556&height=118)
-
-In the formula above, x+ is a data point similar to the input x. In other words, the observations x and x+ are correlated and the pair (x,x+) represents a positive sample. In most cases, we can implement different augmentation techniques(Image rotation, cropping and etc.) to generate those samples. In other words, in contrastive learning, we aim to minimize the difference between the positive pairs while maximizing the difference between positives and negatives.
+More formally, for any data point $x$, contrastive methods aim to learn an encoder $f$ that maximizes $similarity(f(x), f(x^+))$ and minimizes $similarity(f(x), f(x^-))$. Here, $x^+$ is a data point similar to the input $x$. In other words, the observations $x$ and $x^+$ are correlated and the pair $(x,x^+)$ represents a positive sample, while $x$ and $x^-$ are unrelated and $(x,x^-)$ represents a negative pair. In most cases, we can implement different augmentation techniques (Image rotation, cropping and etc.) to generate positive samples. In contrastive learning, we aim to minimize the difference between the positive pairs while maximizing the difference between positives and negatives.
 
 ### A Simple Framework for Contrastive Learning of Visual Representations (SimCLR)
 
-And here comes the method we are about to reproduce, SimCLR. It uses the principles of contrastive learning we described above. The idea of SimCLR framework is very simple. An image is taken and random transformations are applied to it to get a pair of two augmented images Xi and Xj. Each image in that pair is passed through an encoder to get representations. Then a non-linear fully connected layer is applied to get representations Z. The task is to maximize the similarity between these two representations Zi and Zj for the same image. The architecture of SimCLR is shown below.
+And here comes the method we are about to reproduce, SimCLR[1]. It uses the principles of contrastive learning we described above. As mentioned in former parts, the essence of strength of the work is the aggressive data augmentation. By doing so, "harder" samples are generated to train the ability of the network to learn representations. In fact, the authors demonstrated in the paper that such stronger data augmentation can benefit unsupervised contrastive learning "dramatically" while the same augmenation does not improve and even hurts performance of supervised models.
+
+The architecture of SimCLR is shown below. An image is taken and random transformations are applied to it to get a pair of two augmented images $x_i$ and $x_j$. Each image in that pair is passed through an encoder to get representations. Then a non-linear fully connected layer is applied to get representations $z_i$ and $z_j$. The task is to maximize the similarity between these two representations $z_i$ and $z_j$ for the same image. 
 
 ![](https://i.imgur.com/nBp4aSF.jpg)
 
@@ -54,16 +55,22 @@ And first of all, we perform data augmentations on a batch. The actual batch siz
 
 ![](https://i.imgur.com/tDoPcvZ.png)
 
-Many possible operations of augmentations are available. The authors of the paper concluded, however, the composition of random cropping and random color distortion stands out.
+Many possible operations of augmentations are available. In the paper, various data augmentation operations and their combinations are tested, involving spatial transformations like cropping and rotation and appearance transformations like color distortion.
+
+The authors of the paper concluded, after experiments:
+1. no single transformation suffices to learn good representations
+2. the quality of representation improves dramatically when composing augmentations
+
+And the composition of random cropping and random color distortion stands out.
 
 ![](https://i.imgur.com/XfqFzwT.png)
 
-For each image in a batch, we get a pair of images after augmentations. So for a batch size of N, we have 2N results.
+For each image in a batch, we get an augmented version of it. So for a batch size of N, we get 2N images.
 
 
 **2. Encoding**
 
-The pair of images $(x_i, x_j)$ then will be encoded to get the representations. The encoder is general and can be replaced by other possible designs. ResNet-50 is used in this paper.
+The pair of images $(x_i, x_j)$ then will be encoded to get the representations. Usually the encoded representations are of much lower dimensions, which is more efficient to work with. The encoder is general and can be replaced by other possible designs. ResNet-50 is used in this paper.
 
 ![](https://i.imgur.com/fgmyacm.png)
 
@@ -190,7 +197,7 @@ The main process can be divided into four parts:
 3. Use the pre-trained SimCLR model to project the RPLAN dataset into embedding space.
 4. Use TensorBoard to visualize the embedding space.
 
-In the first part, we use the rplanpy library to read the RPLAN dataset and convert the binary images to color images. Here are two examples of this processing.
+In the first part, we use the [rplanpy](https://pypi.org/project/rplanpy/) library to read the RPLAN dataset and convert the binary images to color images. Here are two examples of this processing.
 
 <img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="600"/>
 
@@ -207,3 +214,12 @@ For example:
 
 
 Therefore, SimCLR can also work well on the RPLAN dataset. In future work, SimCLR can be a useful tool to project the RPLAN dataset into embeddings for multipurpose applications.
+
+ ## References
+ [1] Chen, Ting, et al. "A simple framework for contrastive learning of visual representations." International conference on machine learning. PMLR, 2020.
+ 
+ [2] Wu, Wenming, et al. "Data-driven interior plan generation for residential buildings." ACM Transactions on Graphics (TOG) 38.6 (2019): 1-12.
+ 
+ [3] SimCLR PyTorch Implementation: https://github.com/Spijkervet/SimCLR
+ 
+ [4] How to visualize image feature vectors: https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f
