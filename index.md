@@ -10,8 +10,8 @@ This blog aims to present the reproduction work of the paper [A Simple Framework
 
 ![](https://i.imgur.com/JORMqqp.png)
 
-## Introduction
 ---------------------
+## Introduction
 For decades, a large class of ML methods relies on human-provided labels or rewards as the only form of learning signals used during the training process. These methods, known as Supervised Learning approaches, heavily rely on the amount of annotated training data available. But as is known, annotating data is not cheap. On the other hand, if we look around, data, in an unsupervised way, is abundant. This is where self-supervised learning methods play a vital role in the process of deep learning without requiring expensive annotations.
 
 ### Self-supervised Learning
@@ -145,8 +145,8 @@ In this section, we compare the performance of different training strategies and
 | ResNet4X linear evaluation  | in the original paper         | 0.953         |
 
 ### Visualization
-Is there an alternative approach to evaulate the performance of SimCLR or other contrastive learning method? 
-In this section, we project the CIFAR10 dataset and RPLAN dataset into the embedding space by SimCLR.　And use t-SNE reduce the embedding space's dimensionality to visualize the embedding space. This kind of approach can give us a subjective view of the performance of contrastive learning methods.
+Is there an alternative approach to evaluate the performance of SimCLR or other contrastive learning methods? 
+In this section, we project the CIFAR10 dataset and RPLAN dataset into the embedding space by SimCLR. And we use t-SNE to reduce the embedding space's dimensionality to visualize the embedding space. This kind of approach can give us a subjective view of the performance of contrastive learning methods.
 #### Visualization on CIFAR10
 The visulazation process consists of the following steps, and the detailed step by step process is included in our GitHub repository:
 1. Project the CIFAR10 dataset into the embedding space by SimCLR.
@@ -155,7 +155,7 @@ The visulazation process consists of the following steps, and the detailed step 
 
 We choose 4000 thousands of samples from the CIFAR10 testset to do the visualization. At first, we only associate the embedding with colorful dots in the 3D space.
 ![3D_space.gif](https://cdn.discordapp.com/attachments/884910103428476989/964083401139306516/Webp.net-gifmaker.gif)
-In this gif, different colors represent different classes. As we can see, the dots in the 3D space are more dense in the center of the space. The dots in the 3D space are split very well. Difffernt classes are separated into different sub sapce.
+In this gif, different colors represent different classes. As we can see, the dots in the 3D space are denser in the center of the space. The dots in the 3D space are split very well. Different classes are separated into different sub space.
 
 To better visualize the embedding space, we associate the embedding with the images in our space. We refer to the blog [How to visualize image feature vectors](https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f).
 ![](https://cdn.discordapp.com/attachments/884910103428476989/964089053177839616/unknown.png)
@@ -164,29 +164,36 @@ As you can see, each dot in the 2D space is an image. We can find some interesti
 1. Some classes are easily mixed in the space, like truck, automobile, and airplane.
 ![](https://media.discordapp.net/attachments/884910103428476989/964091046927671336/unknown.png?width=1876&height=1302)
 2. Images on the dividing line between the two classes always have the same characteristics of both.
-For example, birds on the dividing line between birds and deers are always ostrichs.
+For example, birds on the dividing line between birds and deers are always ostriches.
 ![](https://media.discordapp.net/attachments/884910103428476989/964092583875854416/unknown.png?width=1384&height=1302)
 #### Visualization on RPLAN Dataset
 RPLAN dataset is a manually collected large-scale densely annotated dataset of floor plans from real residential buildings.[From dataset discription]
-Here is an example in RPLAN dataset:
+Here is an example in the RPLAN dataset:
 
-<img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="400"/>
+<img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="800"/>
 
-The main problem of RPLAN dataset is that the images are not labeled. Therefore, we cannot use the linear evaluation to evaluate our model's performance on RPLAN dataset. Therefore, we use the visualization method to project the image to 3D space to evaluate the performance subjectively.
+The main problem with the RPLAN dataset is that the images are not labeled. Therefore, we cannot use the linear evaluation to evaluate our model's performance on the RPLAN dataset. Therefore, we use the visualization method to project the image to 3D space to evaluate the performance subjectively.
 
 The main process can be divided into four parts:
-1. Change the binary images of RPLAN dataset to color images for better visualization
-2. Use the color images to pre-train SimCLR model.
+1. Change the binary images of the RPLAN dataset to color images for better visualization
+2. Use the color images to pre-train the SimCLR model.
 3. Use the pre-trained SimCLR model to project the RPLAN dataset into embedding space.
-4. Use tensorboard to visualize the embedding space.
+4. Use TensorBoard to visualize the embedding space.
 
-In the first part, we use rplanpy libary to read the RPLAN dataset and convert the binary images to color images. Here is two examples of this processing.
-<img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="400"/>
+In the first part, we use the rplanpy library to read the RPLAN dataset and convert the binary images to color images. Here are two examples of this processing.
 
-The next three parts are same as the CIFAR10 dataset, the only difference is that we cannot get the label information. The final visualization results are shown in the images below.
-![](https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302)
-We find that the neighers in the space are very similar.
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="800"/>
+
+The next three parts are the same as the CIFAR10 dataset, the only difference is that we cannot get the label information. The final visualization results are shown in the images below.
+
+<img src="https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302" alt="examples" width="800"/>
+
+We find that the neighbors in the space are very similar.
 For example:
-![](https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302)
-![](https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302)
-Therefore, SimCLR can also work well on RPLAN dataset. In the future work, SimCLR can be a useful tool to project RPLAN dataset into embeddings for multipurpose applications.
+
+<img src="https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302" alt="examples" width="800"/>
+
+<img src="https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302" alt="examples" width="800"/>
+
+
+Therefore, SimCLR can also work well on the RPLAN dataset. In future work, SimCLR can be a useful tool to project the RPLAN dataset into embeddings for multipurpose applications.
