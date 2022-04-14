@@ -155,30 +155,30 @@ The visulazation process consists of the following steps, and the detailed step 
 
 We choose 4000 thousands of samples from the CIFAR10 testset to do the visualization. At first, we only associate the embedding with colorful dots in the 3D space.
 
-<img src="https://cdn.discordapp.com/attachments/884910103428476989/964083401139306516/Webp.net-gifmaker.gif" alt="examples" width="800"/>
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/964083401139306516/Webp.net-gifmaker.gif" alt="examples" width="600"/>
 
 In this gif, different colors represent different classes. As we can see, the dots in the 3D space are denser in the center of the space. The dots in the 3D space are split very well. Different classes are separated into different sub space.
 
 To better visualize the embedding space, we associate the embedding with the images in our space. We refer to the blog [How to visualize image feature vectors](https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f).
 
-<img src="https://cdn.discordapp.com/attachments/884910103428476989/964089053177839616/unknown.png" alt="examples" width="800"/>
-<img src="https://media.discordapp.net/attachments/884910103428476989/964089114951573534/unknown.png?width=1398&height=1302" alt="examples" width="800"/>
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/964089053177839616/unknown.png" alt="examples" width="600"/>
+<img src="https://media.discordapp.net/attachments/884910103428476989/964089114951573534/unknown.png?width=1398&height=1302" alt="examples" width="600"/>
 
 As you can see, each dot in the 2D space is an image. We can find some interesting findings in the 2D space.
 1. Some classes are easily mixed in the space, like truck, automobile, and airplane.
 
-<img src="https://media.discordapp.net/attachments/884910103428476989/964091046927671336/unknown.png?width=1876&height=1302" alt="examples" width="800"/>
+<img src="https://media.discordapp.net/attachments/884910103428476989/964091046927671336/unknown.png?width=1876&height=1302" alt="examples" width="600"/>
 2. Images on the dividing line between the two classes always have the same characteristics of both.
 For example, birds on the dividing line between birds and deers are always ostriches.
 
-<img src="https://media.discordapp.net/attachments/884910103428476989/964092583875854416/unknown.png?width=1384&height=1302" width="800"/>
+<img src="https://media.discordapp.net/attachments/884910103428476989/964092583875854416/unknown.png?width=1384&height=1302" width="600"/>
 
 #### Visualization on RPLAN Dataset
 RPLAN dataset is a manually collected large-scale densely annotated dataset of floor plans from real residential buildings[From dataset discription](http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/index.html).
 
 Here is an example in the RPLAN dataset:
 
-<img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="800"/>
+<img src="http://staff.ustc.edu.cn/~fuxm/projects/DeepLayout/DeepLayout.png" alt="examples" width="600"/>
 
 The main problem with the RPLAN dataset is that the images are not labeled. Therefore, we cannot use the linear evaluation to evaluate our model's performance on the RPLAN dataset. Therefore, we use the visualization method to project the image to 3D space to evaluate the performance subjectively.
 
@@ -190,18 +190,18 @@ The main process can be divided into four parts:
 
 In the first part, we use the rplanpy library to read the RPLAN dataset and convert the binary images to color images. Here are two examples of this processing.
 
-<img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="800"/>
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/961703864225112074/unknown.png" alt="examples" width="600"/>
 
 The next three parts are the same as the CIFAR10 dataset, the only difference is that we cannot get the label information. The final visualization results are shown in the images below.
 
-<img src="https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302" alt="examples" width="800"/>
+<img src="https://media.discordapp.net/attachments/884557154902765572/964101556708454451/unknown.png?width=1310&height=1302" alt="examples" width="600"/>
 
 We find that the neighbors in the space are very similar.
 For example:
 
-<img src="https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302" alt="examples" width="800"/>
+<img src="https://media.discordapp.net/attachments/884557154902765572/964107520903893042/Picture3.png?width=1404&height=1302" alt="examples" width="600"/>
 
-<img src="https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302" alt="examples" width="800"/>
+<img src="https://media.discordapp.net/attachments/884557154902765572/964107533524561940/Picture1.png?width=1366&height=1302" alt="examples" width="600"/>
 
 
 Therefore, SimCLR can also work well on the RPLAN dataset. In future work, SimCLR can be a useful tool to project the RPLAN dataset into embeddings for multipurpose applications.
