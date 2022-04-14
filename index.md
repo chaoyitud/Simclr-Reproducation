@@ -11,6 +11,11 @@ This blog aims to present the reproduction work of the paper [A Simple Framework
 The structure of this blog can be divided into 2 parts, including introduction of the content in the paper and the work we have done. Our working generally includes reproduction of the paper, extending application on RPLAN dataset and visualization of the training result.
 
 ![](https://i.imgur.com/JORMqqp.png)
+## Author Contribution
+The blog writing is equally distributed among different authors.
+
+Chaoyi Zhu: Preprocess RPLAN dataset and visualize the training result on CIFAR10 and RPLAN.
+Congwen Chen: Finetune and apply linear evaluation on different models. Zhiyang Liu: Train the model using the official repo and convert the official checkpoint to Pytorch version.
 
 ---------------------
 ## Introduction
