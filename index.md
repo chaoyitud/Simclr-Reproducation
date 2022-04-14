@@ -6,19 +6,28 @@
 
 ---------------------
 
-This blog aims to present the reproduction work of the paper [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf). The paper introduces a new method for contrastive learning of visual representations. This work achieved strong results and outperformed previous methods for self-supervised and semi-supervised learning on ImageNet. Our objective is to reproduce the results in Table 8 of the original paper as shown below.
+<!--- 
+General comments: 
+- First of all: the looks are really good, and the storyline works well. Furthermore, I think the potential of the blog is really high, but if you like to achieve a really good one, some things need te be added/changed/etc. (hopefully my comments are constructive, please let me know...)
+- At the start: indicate more precisely what you did, instead of only "aims to present the reproduction work of the paper"
+- Sometimes (I commented on that already a bit) there is a lack of explanation (for example why a certain loss function).
+- Markdown offers inline math I think: could be nice! https://github.com/jeremy-rifkin/markdown-math-gh-compiler
+- Add the visual inspection!!!! 
+-->
+
+This blog aims to present the reproduction work of the paper [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf). The paper introduces a new method for contrastive learning of visual representations. This work achieved strong results and outperformed previous methods for self-supervised and semi-supervised learning on ImageNet **and strong generalization performance on other datasets as well**. Our objective is to reproduce the results in Table 8 of the original paper as shown below **Already mention here the extra visualizations you did, a more detailed explanation, and the generalization to another more 'graphical' dataset.**
 
 ![](https://i.imgur.com/JORMqqp.png)
 
 ## Introduction
 ---------------------
-For decades, a large class of ML methods relies on human-provided labels or rewards as the only form of learning signals used during the training process. These methods, known as Supervised Learning approaches, heavily rely on the amount of annotated training data available. But as is known, annotating data is not cheap. On the other hand, if we look around, data, in an unsupervised way, is abundant. This is where self-supervised learning methods play a vital role in the process of deep learning without requiring expensive annotations.
+For decades, a large class of ML methods relies on human-provided labels or rewards as the only form of learning signals used during the training process. These methods, known as Supervised Learning approaches, heavily rely on the amount of annotated training data available. **Although raw data is vastly available, annotating data is known to be expensive (instead of next too long sentences).** But as is known, annotating data is not cheap **use expensive**. On the other hand, if we look around, data, in an unsupervised way, is abundant. This is where self-supervised learning methods play a vital role in the process of deep learning without requiring expensive annotations. **This is a somewhat too rich-in-opinion-like sentence I would say. Furthermore; stricly speaking Self-SL is not Unsupervised-SL (this is a comment on next sentence) ;).**
 
 ### Self-supervised Learning
 
-From a classification perspective, self-supervised learning is a subset of unsupervised learning. It aims to learn some general representation for downstream tasks.
+From a classification perspective, self-supervised learning is a subset of unsupervised learning. It aims to learn some general representation for downstream tasks. **Is that always the aim?**
 
-Typically, in the process of self-supervised learning, as shown below, unlabeled data is used for pre-training. After that, the model is fine-tuned in a supervised way according to the downstream tasks.
+Typically, in the process of self-supervised learning, as shown below, unlabeled data is used for pre-training **I would say instead something like: the label is generated from the data instances directly, namely as being similar/equivalent to itself (similar for contrastive and equivalent for things like VAEs). Furthermore: SSL and USL are often used for different things purposes as well: clustering of data, compression, uncovering unknown links, outlier detection, search engines ...**. After that, the model is fine-tuned in a supervised way according to the downstream tasks. 
 
 ![](https://i.imgur.com/PBammSs.png)
 
@@ -30,17 +39,17 @@ The main motivation for contrastive learning comes from human learning patterns.
 
 ![](https://i.imgur.com/MScuyWA.png)
 
-Roughly speaking, we create some kind of representation in our minds, and then we use them to recognize new objects. And the main goal of contrastive self-supervised learning is to create and generalize these representations.
+Roughly speaking, we create some kind of representation in our minds, and then we use them to recognize new objects. And the main goal of contrastive self-supervised learning is to create and generalize these representations. **NICE: was this reference mentioned in the article? You could even add a more _formal_ piece of text here: such as in section 3.1 of https://arxiv.org/abs/1804.00382**
 
-More formally, for any data point x, contrastive methods aim to learn an encoder f such that:
+More formally, for any data point x, contrastive methods aim to learn an encoder f such that **This reflection is _not_ entirely true for SimCLR as the main objective is not to do this but rather more direct, namely to close the distance between similar pairs and stretch the distance between dissimilar pairs. This exact formulation (below) is implemented elsewhere though: See triplet networks, there they indeed work with relative distances (anchor-positive + margin < anchor-negative).**:
 
 ![image alt](https://media.discordapp.net/attachments/884910103428476989/961721226013851739/unknown.png?width=2556&height=118)
 
-In the formula above, x+ is a data point similar to the input x. In other words, the observations x and x+ are correlated and the pair (x,x+) represents a positive sample. In most cases, we can implement different augmentation techniques(Image rotation, cropping and etc.) to generate those samples. In other words, in contrastive learning, we aim to minimize the difference between the positive pairs while maximizing the difference between positives and negatives.
+In the formula above, x+ is a data point similar to the input x. In other words, the observations x and x+ are correlated and the pair (x,x+) represents a positive sample. In most cases, we can implement different augmentation techniques(Image rotation, cropping and etc.) to generate those samples. In other words, in contrastive learning, we aim to minimize the difference between the positive pairs while maximizing the difference between positives and negatives. **This last part indeed says what it does**
 
 ### A Simple Framework for Contrastive Learning of Visual Representations (SimCLR)
 
-And here comes the method we are about to reproduce, SimCLR. It uses the principles of contrastive learning we described above. The idea of SimCLR framework is very simple. An image is taken and random transformations are applied to it to get a pair of two augmented images Xi and Xj. Each image in that pair is passed through an encoder to get representations. Then a non-linear fully connected layer is applied to get representations Z. The task is to maximize the similarity between these two representations Zi and Zj for the same image. The architecture of SimCLR is shown below.
+And here comes the method we are about to reproduce, SimCLR **again cite**. It uses the principles of contrastive learning we described above. The idea of SimCLR framework is very simple. An image is taken and random transformations are applied to it to get a pair of two augmented images Xi and Xj. Each image in that pair is passed through an encoder to get representations. Then a non-linear fully connected layer is applied to get representations Z. The task is to maximize the similarity between these two representations Zi and Zj for the same image. The architecture of SimCLR is shown below. **Please indicate here or in the introduction the essence of the strength of the article: namely the aggressive data augmentation, there is a nice section in the article that conjectures why it is so good**
 
 ![](https://i.imgur.com/nBp4aSF.jpg)
 
@@ -52,16 +61,16 @@ And first of all, we perform data augmentations on a batch. The actual batch siz
 
 ![](https://i.imgur.com/tDoPcvZ.png)
 
-Many possible operations of augmentations are available. The authors of the paper concluded, however, the composition of random cropping and random color distortion stands out.
+Many possible operations of augmentations are available. The authors of the paper concluded, however, the composition of random cropping and random color distortion stands out. **Again indicate that one of the most interesing parts of the article was about 1) the need for aggressive data augmentation and 2) what composition of data augmentation resulted in the best overall performance**.
 
 ![](https://i.imgur.com/XfqFzwT.png)
 
-For each image in a batch, we get a pair of images after augmentations. So for a batch size of N, we have 2N results.
+For each image in a batch, we get a pair of images after augmentations. So for a batch size of N, we have 2N results. **Isn't it just per batch that every image get's randomly transformed only ones per feedforward?**
 
 
 **2. Encoding**
 
-The pair of images $(x_i, x_j)$ then will be encoded to get the representations. The encoder is general and can be replaced by other possible designs. ResNet-50 is used in this paper.
+The pair of images $(x_i, x_j)$ then will be encoded to get the representations **specify maybe that the representation is often a much lower dimension + vector: easier to work with**. The encoder is general and can be replaced by other possible designs. ResNet-50 is used in this paper.
 
 ![](https://i.imgur.com/fgmyacm.png)
 
@@ -77,7 +86,7 @@ At this step, we have the final presentations $z_1, ..., z_4$.
 
 ![](https://i.imgur.com/TXElx1M.png)
 
-Cosine Similarity is used to measure the similarity between representations.
+Cosine Similarity is used to measure the similarity between representations. **Could you think and write therefore about why cosine similarity is used and not something more simple like the normal constrastive loss which is min(max\[0, d(f(xi), f(xi')\]) and min(max\[0, margin - d(f(xi), f(xj')\]) ij different data instances (thus dissimilar for simCLR).**
 
 ![](https://i.imgur.com/QaMF4rg.png)
 
@@ -101,12 +110,14 @@ In the following sections, we introduce our implementations of SimCLR and the re
 
 ## Our work
 
-The goal of this report is to show our effort in reproducing the paper "A Simple Framework for Contrastive Learning of Visual Representation". [Link to paper](https://arxiv.org/pdf/2002.05709.pdf) We reimplement SIMCLR using PyTorch based on the official TensorFlow version. Moreover, as the requirement of the course, we reproduce the result in table 8 on the CIFAR10 dataset and get a nice visualization effect on trained image vectors. Moreover, we also extend our work to a new dataset RPLAN, and also achieves good visualization results. In general, our work can be divided into the following parts:
+The goal of this report is to show our effort in reproducing the paper "A Simple Framework for Contrastive Learning of Visual Representation". [Link to paper](https://arxiv.org/pdf/2002.05709.pdf) We reimplement SIMCLR using PyTorch based on the official TensorFlow version **link to where it can be found**. Moreover, as the requirement of the course, we reproduce the result in table 8 on the CIFAR10 dataset and get a nice visualization effect on trained image vectors **better understandable if you write: ... and do a more excessive visual inspection of the embedding space**. Moreover, we also extend our work to a new dataset RPLAN, and also achieves good visualization results **explain why you do this: completely different to the other more 'natural' datasets**. In general, our work can be divided into the following parts:
 
   - Reimplement the paper using PyTorch on Jupyter Notebook.
   - Reproduce the result of table 8 in the paper using different training strategies, including finetuning and linear evaluation, by using the pretrained ResNet(1X) and ResNet(4X) models.
   - Extend to apply SIMCLR on the RPLAN dataset. The work includes applying transform on RPLAN images(so that they can fit in the model) and training on these images.
   - Visualize the trained image vectors on CIFAR10 and RPLAN datasets by using PCA and SNE, and analysis the pretraining performance of the model.
+
+**In the above itemization: make the words _italic_ that are most important in the sentence (emphasize)**
 
 ### Reproduction of the paper
 
@@ -118,13 +129,13 @@ To transform the official TensorFlow checkpoint to the Pytorch checkpoint, we us
 
 ##### Linear Evaluation
 
-We use weight & biase to get the loss curve of the training process. As shown in the following graph. The X-axis refers to the epoch number, and the y-axis refers to the corresponding accuracy or loss. During the linear evaluation, the model quickly converges and the loss almost reaches 0 in around 200 epochs. We also compare the convergence speed between ResNet1X and ResNet4X. The result shows that a larger pretraining model won't make the logistic regression layer converge faster.
+We use weight & biase (**biase_s_ and again link to the package**) to get the loss curve of the training process. As shown in the following graph **figure**. The X-axis refers to the epoch number, and the y-axis refers to the corresponding accuracy or loss. During the linear evaluation, the model quickly converges and the loss almost reaches 0 **how close to 0? better maybe with log?** in around 200 epochs. We also compare the convergence speed between ResNet1X and ResNet4X. The result shows that a larger pretraining model won't make the logistic regression layer converge faster. **It seems like it is overfitting somehow: quite strange that the loss is so close to zero ...**
 
 <img src="https://s1.ax1x.com/2022/04/08/LpA8N6.png" alt="i1" style="zoom: 15%;" /><img src="https://cdn.discordapp.com/attachments/884910103428476989/961713567076352130/WB_Chart_4_7_2022_9_41_15_PM.png" alt="i2" style="zoom:15%;" /><img src="https://cdn.discordapp.com/attachments/884910103428476989/961717185229779024/WB_Chart_4_7_2022_10_00_22_PM.png" alt="i2" style="zoom:15%;" /><img src="https://cdn.discordapp.com/attachments/884910103428476989/961717185468850206/WB_Chart_4_7_2022_10_00_28_PM.png" alt="i2" style="zoom:15%;" />
 
 ##### Finetune
 
-We also plot the learning curve of finetuning training phase and compare it with the learning curve while the model learns from scratch. The graph is shown below. Different from linear evaluation, finetuning requires much more computation and takes approximately 30 minutes to run 1 epoch, so the x-axis now refers to the step number. Pretrained models converge much faster compared with the model trained from scratch and achieve much higher accuracy while training. It proves that the pretraining process does take effect.
+We also plot the learning curve of finetuning training phase and compare it with the learning curve while the model learns from scratch. The graph is shown below. Different from linear evaluation, finetuning requires much more computation and takes approximately 30 minutes to run 1 epoch, so the x-axis now refers to the step number. Pretrained models converge much faster compared with the model trained from scratch and achieve much higher accuracy while training. It proves that the pretraining process does take effect. **Maybe also plot the moving average (about 20 iterations as hyperparameter maybe)? Again a log-plot might be better. You use a step SGD it seems, is that right (seemingly from the jumps in accuracy and loss functions)? Furthermore, is the accuracy on the training/validation/test? Usually you plot for _training and validation_ and compare to evaluate things like overfitting etc.**
 
 
 
@@ -132,7 +143,7 @@ We also plot the learning curve of finetuning training phase and compare it with
 
 #### Result comparison
 
-In this section, we compare the performance of different training strategies and the same strategy with the performance in the paper. All the results are shown in the following table. We fail to run ResNet4X finetune because of a lack of computational resources. Our ResNet1X finetuning has almost the same performance compared with the original paper. However, after trying different training settings, our linear evaluation still can not achieve the same performance as the paper. After reading the paper and comparing our code with the official code, I think it might result from the small batch size we use. The author shows that a larger batch size over 512 can significantly increase the performance. But because of a lack of memory resources, that does not apply to us.
+In this section, we compare the performance of different training strategies and the same strategy with the performance in the paper. All the results are shown in the following table. We fail to run ResNet4X finetune because of a lack of computational resources. Our ResNet1X finetuning has almost the same performance compared with the original paper. However, after trying different training settings, our linear evaluation still can not achieve the same performance as the paper. After reading the paper and comparing our code with the official code, I think it might result from the small batch size we use. The author shows that a larger batch size over 512 can significantly increase the performance. But because of a lack of memory resources, that does not apply to us. **Good section. Maybe make the table such that you have 2 extra colums (_our implementation_, _from scratch_, _original paper_, etc) and a  couple less rows (logically): maybe even indicate the difference w.r.t. article (in brackets: e.g. ResNet1X fine tune ("loading pretrained") = 0.955 (-0.22)**
 
 | Training Setup              | Note                          | Accuracy |
 | --------------------------- | ----------------------------- | -------- |
