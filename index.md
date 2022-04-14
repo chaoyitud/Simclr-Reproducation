@@ -158,14 +158,18 @@ We choose 4000 thousands of samples from the CIFAR10 testset to do the visualiza
 In this gif, different colors represent different classes. As we can see, the dots in the 3D space are denser in the center of the space. The dots in the 3D space are split very well. Different classes are separated into different sub space.
 
 To better visualize the embedding space, we associate the embedding with the images in our space. We refer to the blog [How to visualize image feature vectors](https://hanna-shares.medium.com/how-to-visualize-image-feature-vectors-1e309d45f28f).
-![](https://cdn.discordapp.com/attachments/884910103428476989/964089053177839616/unknown.png)
-![](https://media.discordapp.net/attachments/884910103428476989/964089114951573534/unknown.png?width=1398&height=1302)
+<img src="https://cdn.discordapp.com/attachments/884910103428476989/964089053177839616/unknown.png" alt="examples" width="800"/>
+<img src="https://media.discordapp.net/attachments/884910103428476989/964089114951573534/unknown.png?width=1398&height=1302" alt="examples" width="800"/>
+
 As you can see, each dot in the 2D space is an image. We can find some interesting findings in the 2D space.
 1. Some classes are easily mixed in the space, like truck, automobile, and airplane.
-![](https://media.discordapp.net/attachments/884910103428476989/964091046927671336/unknown.png?width=1876&height=1302)
+
+<img src="https://media.discordapp.net/attachments/884910103428476989/964091046927671336/unknown.png?width=1876&height=1302" alt="examples" width="800"/>
 2. Images on the dividing line between the two classes always have the same characteristics of both.
 For example, birds on the dividing line between birds and deers are always ostriches.
-![](https://media.discordapp.net/attachments/884910103428476989/964092583875854416/unknown.png?width=1384&height=1302)
+
+<img src="https://media.discordapp.net/attachments/884910103428476989/964092583875854416/unknown.png?width=1384&height=1302" width="800"/>
+
 #### Visualization on RPLAN Dataset
 RPLAN dataset is a manually collected large-scale densely annotated dataset of floor plans from real residential buildings.[From dataset discription]
 Here is an example in the RPLAN dataset:
